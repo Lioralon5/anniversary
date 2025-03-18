@@ -6,15 +6,16 @@ import fs from "fs";
 import path from "path";
 import exifr from "exifr";
 import ImagesContainer from "@/components/ImagesContainer/ImagesContainer";
+import { LatLngExpression } from "leaflet";
 
 // Dynamically import MapContainer and other components with SSR disabled
 const MapContainer = dynamic(() => import("react-leaflet").then((mod) => mod.MapContainer), { ssr: false });
 const TileLayer = dynamic(() => import("react-leaflet").then((mod) => mod.TileLayer), { ssr: false });
 const Marker = dynamic(() => import("react-leaflet").then((mod) => mod.Marker), { ssr: false });
 
-export default function Home({ positions }) {
+export default function Home({ positions }: { positions: { position: LatLngExpression; images: string[] }[] }) {
   const [L, setL] = useState<typeof import("leaflet") | null>(null); // State to hold the dynamically imported Leaflet module
-  const [selectedPosition, setSelectedPosition] = useState(null); // Track the clicked marker
+  const [selectedPosition, setSelectedPosition] = useState<(LatLngExpression & { images: string[] }) | null>(null); // Track the clicked marker
 
   useEffect(() => {
     // Dynamically import Leaflet
@@ -52,12 +53,12 @@ export default function Home({ positions }) {
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
-          {positions.map((pos, index) => (
+          {positions.map((pos: { position: LatLngExpression }, index: number) => (
             <Marker
               key={index}
               position={pos.position}
               eventHandlers={{
-                click: () => setSelectedPosition(pos), // Set the selected position
+                click: () => setSelectedPosition(pos as unknown as any), // Set the selected position
               }}
             />
           ))}
@@ -86,7 +87,7 @@ export async function getServerSideProps() {
 
   // 2. Dynamically build positions from public/images/positionImages
   const positionImagesPath = path.join(process.cwd(), "public/images/positionImages");
-  const positions = [];
+  const positions: any = [];
 
   const folders = fs.readdirSync(positionImagesPath);
   folders.forEach((folder) => {
