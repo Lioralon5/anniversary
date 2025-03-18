@@ -15,11 +15,11 @@ const ImagesContainer: FC<ImagesContainerProps> = ({ onClose, images }) => {
   return (
     <>
       <Dialog open={true} onClose={onClose} maxWidth="lg">
-        <DialogTitle>
+        {/* <DialogTitle>
           <IconButton>
             <LoyaltyIcon />
           </IconButton>
-        </DialogTitle>
+        </DialogTitle> */}
         <DialogContent>
           <div className={classes.imagesContainer}>
             <div className={classes.images}>
