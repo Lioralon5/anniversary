@@ -1,10 +1,11 @@
 import Head from "next/head";
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
 import fs from "fs";
 import path from "path";
 import exifr from "exifr";
+import ImagesContainer from "@/components/ImagesContainer/ImagesContainer";
 
 // Dynamically import MapContainer and other components with SSR disabled
 const MapContainer = dynamic(() => import("react-leaflet").then((mod) => mod.MapContainer), { ssr: false });
@@ -65,53 +66,7 @@ export default function Home({ positions }) {
         {/* Modal with images */}
         <AnimatePresence>
           {selectedPosition && (
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 50 }}
-              style={{
-                position: "fixed",
-                top: "50%",
-                left: "50%",
-                transform: "translate(-50%, -50%)",
-                background: "rgba(255, 255, 255, 0.9)",
-                borderRadius: "15px",
-                padding: "20px",
-                boxShadow: "0 4px 15px rgba(0, 0, 0, 0.2)",
-                zIndex: 1000,
-                maxWidth: "80%",
-              }}>
-              <div style={{ display: "flex", flexWrap: "wrap", gap: "10px" }}>
-                {selectedPosition.images.map((image, index) => (
-                  <motion.img
-                    key={index}
-                    src={image}
-                    style={{
-                      width: "100px",
-                      height: "100px",
-                      objectFit: "cover",
-                      borderRadius: "10px",
-                      cursor: "pointer",
-                    }}
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.95 }}
-                  />
-                ))}
-              </div>
-              <button
-                onClick={() => setSelectedPosition(null)}
-                style={{
-                  marginTop: "15px",
-                  padding: "10px 20px",
-                  background: "rgba(0, 0, 0, 0.8)",
-                  color: "white",
-                  border: "none",
-                  borderRadius: "5px",
-                  cursor: "pointer",
-                }}>
-                Close
-              </button>
-            </motion.div>
+            <ImagesContainer images={selectedPosition.images} onClose={() => setSelectedPosition(null)} />
           )}
         </AnimatePresence>
       </div>

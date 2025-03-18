@@ -1,0 +1,23 @@
+.imagesContainer {
+  .images {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    .img {
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+  }
+  .closeButton {
+    margin-top: 15px;
+    padding: 10px 20px;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+}

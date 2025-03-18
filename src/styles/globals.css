@@ -1,6 +1,7 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --yarl__color_backdrop: rgba(0, 0, 0, 0.9);
 }
 
 @media (prefers-color-scheme: dark) {
